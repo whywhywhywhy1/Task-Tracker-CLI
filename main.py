@@ -5,7 +5,9 @@ def process(args):
     todo = TaskCLI()
     args_number = len(args)
 
-    if args[0] == "add" and args_number == 2: todo.add(args[1])
+    if args_number == 0:
+        print("No command was entered")
+    elif args[0] == "add" and args_number == 2: todo.add(args[1])
     elif args[0] == "update" and args_number == 3: todo.update(args[1], args[2])
     elif args[0] == "delete" and args_number == 2: todo.delete(args[1])
     elif args[0] == "list" and args_number <= 2:

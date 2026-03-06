@@ -34,13 +34,19 @@ class TaskCLI:
         self.save()
 
     def update(self, task_id, task_description):
-        self.tasks[task_id]["description"] = task_description
-        self.tasks[task_id]["updatedAt"] = datetime.now().strftime(time_format)
-        self.save()
+        try:
+            self.tasks[task_id]["description"] = task_description
+            self.tasks[task_id]["updatedAt"] = datetime.now().strftime(time_format)
+            self.save()
+        except KeyError:
+            print(f"No task with number {task_id}")
 
     def delete(self, task_id):
-        self.tasks.pop(task_id)
-        self.save()
+        try:
+            self.tasks.pop(task_id)
+            self.save()
+        except KeyError:
+            print(f"No task with number {task_id}")
 
     def list(self, task_type="all"):
         for task_id in self.tasks:
@@ -49,14 +55,20 @@ class TaskCLI:
                     Task id: {task_id}
                     Description: {self.tasks[task_id]["description"]}
                     Status: {self.tasks[task_id]["status"]}
-                    Creation date: {self.tasks[task_id]["createdAt"]}
-                    Update date: {self.tasks[task_id]["updatedAt"]}      
+                    Creation date: {self.tasks[task_id]["created_at"]}
+                    Update date: {self.tasks[task_id]["updated_at"]}      
                 """)
 
     def mark_done(self, task_id):
-        self.tasks[task_id]["status"] = "done"
-        self.save()
+        try:
+            self.tasks[task_id]["status"] = "done"
+            self.save()
+        except KeyError:
+            print(f"No task with number {task_id}")
 
     def mark_in_progress(self, task_id):
-        self.tasks[task_id]["status"] = "in-progress"
-        self.save()
+        try:
+            self.tasks[task_id]["status"] = "in-progress"
+            self.save()
+        except KeyError:
+            print(f"No task with number {task_id}")
