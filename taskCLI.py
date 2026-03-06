@@ -1,7 +1,9 @@
 import json
 from datetime import datetime
+from tabulate import tabulate
 
 time_format = "%m/%d/%Y, %H:%M:%S"
+task_attributes = ['id', 'description','status', 'created at', 'updated at']
 
 class TaskCLI:
     tasks = {}
@@ -32,12 +34,15 @@ class TaskCLI:
             "updated_at" : task_creation_time,
         }
         self.save()
+        self.list_by_id(task_id)
 
     def update(self, task_id, task_description):
         try:
             self.tasks[task_id]["description"] = task_description
             self.tasks[task_id]["updatedAt"] = datetime.now().strftime(time_format)
             self.save()
+            print("Successfully updated")
+            self.list_by_id(task_id)
         except KeyError:
             print(f"No task with number {task_id}")
 
@@ -45,24 +50,23 @@ class TaskCLI:
         try:
             self.tasks.pop(task_id)
             self.save()
+            print("Successfully deleted")
         except KeyError:
             print(f"No task with number {task_id}")
 
     def list(self, task_type="all"):
+        table = []
         for task_id in self.tasks:
             if task_type == "all" or task_type == self.tasks[task_id]["status"]:
-                print(f"""
-                    Task id: {task_id}
-                    Description: {self.tasks[task_id]["description"]}
-                    Status: {self.tasks[task_id]["status"]}
-                    Creation date: {self.tasks[task_id]["created_at"]}
-                    Update date: {self.tasks[task_id]["updated_at"]}      
-                """)
+                table.append([i for i in self.tasks[task_id].values()])
+                table[-1].insert(0, task_id)
+        print(tabulate(table, headers=task_attributes))
 
     def mark_done(self, task_id):
         try:
             self.tasks[task_id]["status"] = "done"
             self.save()
+            self.list_by_id(task_id)
         except KeyError:
             print(f"No task with number {task_id}")
 
@@ -70,5 +74,11 @@ class TaskCLI:
         try:
             self.tasks[task_id]["status"] = "in-progress"
             self.save()
+            self.list_by_id(task_id)
         except KeyError:
             print(f"No task with number {task_id}")
+
+    def list_by_id(self, task_id):
+        table = [[i for i in self.tasks[task_id].values()]]
+        table[0].insert(0, task_id)
+        print(tabulate(table, headers=task_attributes))
