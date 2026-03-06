@@ -1,17 +1,8 @@
 import sys
-from todo import ToDo
-
-allowed_args = [
-    "add",
-    "update",
-    "delete",
-    "list",
-    "mark-done",
-    "make-in-progress",
-]
+from taskCLI import TaskCLI
 
 def process(args):
-    todo = ToDo()
+    todo = TaskCLI()
     args_number = len(args)
 
     if args[0] == "add" and args_number == 2: todo.add(args[1])

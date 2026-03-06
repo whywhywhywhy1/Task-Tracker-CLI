@@ -3,31 +3,38 @@ from datetime import datetime
 
 time_format = "%m/%d/%Y, %H:%M:%S"
 
-class ToDo:
+class TaskCLI:
     tasks = {}
 
     def __init__(self):
-        with open("tasks_list.json", "r") as tasks_list:
-            self.tasks = json.load(tasks_list)
+        try:
+            with open("tasks_list.json", "r") as tasks_list:
+                self.tasks = json.load(tasks_list)
+        except FileNotFoundError:
+            self.save()
 
     def save(self):
         with open("tasks_list.json", "w") as tasks_list:
             json.dump(self.tasks, tasks_list, indent=4)
 
-    def add(self, description):
-        task_id = int(str(list(self.tasks.keys())[-1])) + 1
-        creation_time = datetime.now().strftime(time_format)
+    def add(self, task_description):
+        if not self.tasks:
+            task_id = 1
+        else:
+            task_id = int(list(self.tasks.keys())[-1]) + 1
+        task_creation_time = datetime.now().strftime(time_format)
+        task_status = "todo"
 
         self.tasks[task_id] = {
-            "description" : description,
-            "status" : "todo",
-            "created_at" : creation_time,
-            "updated_at" : creation_time,
+            "description" : task_description,
+            "status" : task_status,
+            "created_at" : task_creation_time,
+            "updated_at" : task_creation_time,
         }
         self.save()
 
-    def update(self, task_id, description):
-        self.tasks[task_id]["description"] = description
+    def update(self, task_id, task_description):
+        self.tasks[task_id]["description"] = task_description
         self.tasks[task_id]["updatedAt"] = datetime.now().strftime(time_format)
         self.save()
 
