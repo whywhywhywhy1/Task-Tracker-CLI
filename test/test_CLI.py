@@ -2,7 +2,7 @@ import json
 import os
 import pytest
 from datetime import datetime
-from main import process
+from src.mainCLi import process
 
 time_format = "%m/%d/%Y, %H:%M:%S"
 
