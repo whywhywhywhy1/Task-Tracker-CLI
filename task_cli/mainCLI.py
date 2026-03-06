@@ -1,5 +1,5 @@
 import sys
-from taskCLI import TaskCLI
+from task_cli.taskCLI import TaskCLI
 
 def process(args):
     todo = TaskCLI()
