@@ -2,7 +2,7 @@
 
 ## Description
 
-**Taskly** is a lightweight command-line interface (CLI) application for efficient task management. The idea for the project was taken from Sample solution for the task-tracker challenge from [task-tracker](https://roadmap.sh/projects/task-tracker). challenge from [roadmap.sh](https://roadmap.sh/).
+**Taskly** is a lightweight command-line interface (CLI) application for efficient task management. The idea for the project was taken from Sample solution for the task-tracker challenge from [task-tracker](https://roadmap.sh/projects/task-tracker) challenge from [roadmap.sh](https://roadmap.sh/).
 
 ## Usage
 
